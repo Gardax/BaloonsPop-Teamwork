@@ -12,6 +12,7 @@ public class GameEngine {
 
     public GameEngine(String difficulty)
     {
+    	
         //this.scoreBoard = new Score();
         this.difficulty = difficulty;
         this.matrix = generateMatrix();
