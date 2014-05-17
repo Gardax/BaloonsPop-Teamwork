@@ -1,4 +1,3 @@
-package BaloonsPopGame;
 
 public class Score
 {
@@ -15,7 +14,7 @@ public class Score
 		{
 			return true;
 		}
-		if (this.players.get(4).Points < moves)
+		if (this.players.get(4).getScore() < moves)
 		{
 			return true;
 		}
@@ -43,7 +42,7 @@ public class Score
 
 	public final void Sort()
 	{
-		java.util.Collections.sort(players, (x, y) -> x.Points.CompareTo(y.Points));
+		java.util.Collections.sort(players, (x, y) -> x.getScore().compareTo(y.getScore()));
 	}
 
 	public final void PrintScoreBoard()
@@ -51,7 +50,7 @@ public class Score
 		System.out.println("---------TOP FIVE SCORES-----------");
 		for (int i = 0; i < players.size(); ++i)
 		{
-			System.out.println("%1$s.%2$s - %3$s" + "\r\n", i + 1, players.get(i).Name, players.get(i).Points);
+			System.out.println(i + 1 +". "+players.get(i).getName() +" "+ players.get(i).getScore());
 		}
 		System.out.println("-----------------------------------");
 

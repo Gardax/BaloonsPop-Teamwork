@@ -1,9 +1,11 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Stack;
 
 
 public class GameEngine {
-	//private Score scoreBoard;
+	private Score scoreBoard;
     private byte[][] matrix;
     private int userMoves;
     private byte matrixRows;
@@ -13,7 +15,7 @@ public class GameEngine {
     public GameEngine(String difficulty)
     {
     	
-        //this.scoreBoard = new Score();
+        this.scoreBoard = new Score();
         this.difficulty = difficulty;
         this.matrix = generateMatrix();
         this.userMoves = 0;
@@ -187,7 +189,7 @@ public class GameEngine {
         }
         else if (input == "TOP")
         {
-            //scoreBoard.PrintScoreBoard();
+            scoreBoard.PrintScoreBoard();
         }
         else
         {
@@ -213,18 +215,19 @@ public class GameEngine {
                 if (isFinished())
                 {
                 	System.out.println("Great! You completed it in "+ this.userMoves+" moves.");
-                   // if (scoreBoard.IsGoodEnough(this.userMoves))
-                    //{
-                    //	System.out.println("Enter your name: ");
-                        //string playerName = Console.ReadLine();
-                       // scoreBoard.AddPlayer(playerName, this.userMoves);
-                       // scoreBoard.Sort();
-                        //scoreBoard.PrintScoreBoard();
-                  //  }
-                   // else
-                  //  {
-                    	//System.out.println("I'm sorry, you are not skillful enough for Top Five chart!");
-                   // }
+                    if (scoreBoard.IsGoodEnough(this.userMoves))
+                    {
+                    	System.out.println("Enter your name: ");
+                    	BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+                	    String playerName = bufferRead.readLine();
+                        scoreBoard.AddPlayer(playerName, this.userMoves);
+                        scoreBoard.Sort();
+                        scoreBoard.PrintScoreBoard();
+                    }
+                    else
+                    {
+                    	System.out.println("I'm sorry, you are not skillful enough for Top Five chart!");
+                    }
 
                     this.matrix = generateMatrix();
                     this.userMoves = 0;
