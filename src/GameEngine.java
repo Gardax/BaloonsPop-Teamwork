@@ -3,8 +3,8 @@ import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Stack;
 
-
 public class GameEngine {
+	
 	private Score scoreBoard;
     private Ball[][] matrix;
     private int userMoves;
