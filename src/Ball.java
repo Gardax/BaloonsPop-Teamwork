@@ -1,4 +1,5 @@
 import java.awt.Image;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -14,8 +15,8 @@ public class Ball {
 		return image;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public void setImage(BallColor bColor) {
+		this.image = getIcon(bColor).getImage();
 	}
 	
 	public BallColor getBallColor() {
@@ -63,6 +64,7 @@ public class Ball {
 			source = "Images/GreenBall.png";
 			break;
 		default:
+			source = "Images/Empty.png";
 			break;
 		}
 		return new ImageIcon(this.getClass().getResource(source));
@@ -70,5 +72,9 @@ public class Ball {
 
 	public void fall() {
 		this.y++;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(this.x, this.y, 50, 50);
 	}
 }
