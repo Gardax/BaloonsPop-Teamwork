@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
@@ -83,7 +84,7 @@ public class GameEngine {
             this.matrixCols = 9;
         }
 
-        Ball[][] matrix = new Ball[this.matrixRows][this.matrixCols];
+        Ball[][] matrix = new Ball[matrixRows][matrixCols];
         Random randNumber = new Random();
 
         for (int r = 0, y = 0; r < this.matrixRows; y += 50, r++)
@@ -91,7 +92,8 @@ public class GameEngine {
             for (int c = 0, x = 0; c < this.matrixCols; x += 50, c++)
             {
                 int colorIndex = randNumber.nextInt(3);
-                matrix[r][c] = new Ball(x, y, BallColor.values()[colorIndex]);
+                matrix[r][c] = new Ball(
+                		x, y, BallColor.values()[colorIndex]);
             }
         }
         return matrix;

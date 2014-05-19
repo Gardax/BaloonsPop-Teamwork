@@ -63,6 +63,12 @@ public class Ball {
 		case GREEN:
 			source = "Images/GreenBall.png";
 			break;
+		case YELLOW:
+			source = "Images/OrangeBall.png";
+			break;
+		case PURPLE:
+			source = "Images/PurpleBall.png";
+			break;
 		default:
 			source = "Images/Empty.png";
 			break;
@@ -76,5 +82,9 @@ public class Ball {
 	
 	public Rectangle getBounds() {
 		return new Rectangle(this.x, this.y, 50, 50);
+	}
+	
+	public void mousePressed() {
+		
 	}
 }

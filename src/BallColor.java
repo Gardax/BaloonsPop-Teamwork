@@ -4,7 +4,8 @@ public enum BallColor {
 	BLUE(1),
 	GREEN(2),
 	YELLOW(3),
-	EMPTY(4);
+	PURPLE(4),
+	EMPTY(5);
 	
 	private int value;
 	
