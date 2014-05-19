@@ -2,14 +2,14 @@ import java.util.Scanner;
 
 public class BalloonsPopMain
 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Scanner input = new Scanner(System.in);
 		System.out.println(PrintWelcomeMessage());
 
 		String difficulty = input.nextLine().toLowerCase();
 		GameEngine game = new GameEngine(difficulty);
 
-		System.out.println(game.GetMatrixImage());
+		System.out.println(game.getMatrixImage());
 
 		System.out.println("Enter a row and column: ");
 		String userInput = input.nextLine();
@@ -20,7 +20,7 @@ public class BalloonsPopMain
 				return;
 			}
 			try {
-				game.ProcessGame(userInput);
+				game.processGame(userInput);
 			}
 			catch (RuntimeException ex) {
 				System.out.println(ex.getMessage());
@@ -33,23 +33,23 @@ public class BalloonsPopMain
 	public static String PrintWelcomeMessage() {
 		StringBuilder welcomeMessage = new StringBuilder();
 
-		welcomeMessage.AppendLine("********************************");
+		welcomeMessage.append("********************************");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("* Welcome to Balloons Pop Game *");
+		welcomeMessage.append("* Welcome to Balloons Pop Game *");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("********************************");
+		welcomeMessage.append("********************************");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("");
+		welcomeMessage.append("");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("Please, insert \"TOP\" to see Top Five score board.");
+		welcomeMessage.append("Please, insert \"TOP\" to see Top Five score board.");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("Please, insert \"RESTART\" to exit the game.");
+		welcomeMessage.append("Please, insert \"RESTART\" to restart the game.");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("Please, insert \"EXIT\" to exit the game.");
+		welcomeMessage.append("Please, insert \"EXIT\" to exit the game.");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("");
+		welcomeMessage.append("");
 		welcomeMessage.append(System.getProperty("line.separator"));
-		welcomeMessage.AppendLine("Please, insert what difficulty do you want? - Easy, Medium, Hard");
+		welcomeMessage.append("Please, insert what difficulty do you want? - Easy, Medium, Hard");
 
 		return welcomeMessage.toString();
 	}
