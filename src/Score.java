@@ -42,7 +42,8 @@ public class Score
 
 	public final void Sort()
 	{
-		java.util.Collections.sort(players, (x, y) -> x.getScore().compareTo(y.getScore()));
+		java.util.Collections.sort(
+				players, (x, y) -> x.getScore().compareTo(y.getScore()));
 	}
 
 	public final void PrintScoreBoard()

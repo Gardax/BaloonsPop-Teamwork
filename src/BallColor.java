@@ -1,10 +1,10 @@
 
 public enum BallColor {
-	EMPTY(0),
-	RED(1),
-	BLUE(2),
-	GREEN(3),
-	YELLOW(4);
+	RED(0),
+	BLUE(1),
+	GREEN(2),
+	YELLOW(3),
+	EMPTY(4);
 	
 	private int value;
 	
