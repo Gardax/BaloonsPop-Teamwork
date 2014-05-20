@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.MouseInfo;
 import java.awt.Rectangle;
@@ -25,9 +26,13 @@ import javafx.geometry.Orientation;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.Border;
+
+
+
 
 
 
@@ -44,6 +49,7 @@ public class DrawingPen extends JPanel
 	
 	private final int BALL_WIDTH = 50;
 	private final int BALL_HEIGHT = 50;
+	private final String MENU_IMAGE = "Images/Grass.png";
 	
 	private Timer timer;
 	private ArrayList<Ball> availableBalls;
@@ -76,10 +82,15 @@ public class DrawingPen extends JPanel
 				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1)));
 	}
 	
+	
+	
 	// Draws the balls
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
+        ImageIcon icon = new ImageIcon(getClass().getResource(MENU_IMAGE));
+		Image img = icon.getImage();
+		g2d.drawImage(img, 0, 0, null);
         for (int i = 0; i < availableBalls.size(); i++) {
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
