@@ -1,7 +1,11 @@
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.color.ICC_ColorSpace;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 
@@ -17,7 +21,7 @@ public class Ball {
 	}
 
 	public void setImage(BallColor bColor) {
-		this.image = getIcon(bColor).getImage();
+		this.image = getIcon(bColor);
 	}
 	
 	public BallColor getBallColor() {
@@ -52,7 +56,7 @@ public class Ball {
 		this.y = y;
 	}
 	
-	private ImageIcon getIcon(BallColor ballColor) {
+	private Image getIcon(BallColor ballColor) {
 		String source;
 		switch (ballColor) {
 		case RED:
@@ -65,16 +69,24 @@ public class Ball {
 			source = "Images/GreenBall.png";
 			break;
 		case YELLOW:
-			source = "Images/OrangeBall.png";
+			source = "Images/YellowBall.png";
 			break;
-		case PURPLE:
-			source = "Images/PurpleBall.png";
+		case Brown:
+			source = "Images/BrownBall.png";
 			break;
 		default:
 			source = "Images/Empty.png";
 			break;
 		}
-		return new ImageIcon(getClass().getResource(source));
+		try {
+			Image img = ImageIO.read(new File(getClass().getResource(source).toURI()));
+			return img;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+//		return new ImageIcon(getClass().getResource(source));
 	}
 
 	public void fall() {

@@ -25,9 +25,12 @@ import javafx.geometry.Orientation;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.Border;
+
+
 
 
 
@@ -38,6 +41,7 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+import com.sun.xml.internal.ws.api.pipe.Engine;
 
 public class DrawingPen extends JPanel
 		implements ActionListener {
@@ -48,9 +52,13 @@ public class DrawingPen extends JPanel
 	private Timer timer;
 	private ArrayList<Ball> availableBalls;
 	private Ball[][] matrix;
+	private Player player;
+	private String difficulty;
 	
-	public DrawingPen(Ball[][] matrix) {
+	public DrawingPen(Ball[][] matrix, Player player, String difficulty) {
 		this.matrix = matrix;
+		this.player = player;
+		this.difficulty = difficulty;
 		initAvailableBalls();
 		initBoard();
 		
@@ -73,7 +81,7 @@ public class DrawingPen extends JPanel
 		setDoubleBuffered(true);
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(
-				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1)));
+				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1) + 5));
 	}
 	
 	// Draws the balls
@@ -84,6 +92,11 @@ public class DrawingPen extends JPanel
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
 		}
+        JLabel score = new JLabel();
+        score.setText(String.format("Score: %d", player.getScore()));
+        score.setBounds(0, 300, 20, 20);
+        score.setVisible(true);
+        add(score);
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
@@ -96,6 +109,12 @@ public class DrawingPen extends JPanel
 					availableBalls.get(i).getY() <= matrix.length * BALL_HEIGHT) {
 				availableBalls.get(i).fall();
 			}
+		}
+		
+		if (availableBalls.size() == 0) {
+			this.matrix = new GameEngine(difficulty).generateMatrix();
+			initAvailableBalls();
+			initBoard();
 		}
 		repaint();
 	}
