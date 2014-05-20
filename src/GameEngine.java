@@ -91,7 +91,7 @@ public class GameEngine {
         {
             for (int c = 0, x = 0; c < this.matrixCols; x += 50, c++)
             {
-                int colorIndex = randNumber.nextInt(4);
+                int colorIndex = randNumber.nextInt(3);
                 matrix[r][c] = new Ball(
                 		x, y, BallColor.values()[colorIndex]);
             }
