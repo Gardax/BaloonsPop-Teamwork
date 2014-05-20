@@ -46,7 +46,6 @@ public class DrawingPen extends JPanel
 	private final int BALL_HEIGHT = 50;
 	
 	private Timer timer;
-	private Ball currentBall;
 	private ArrayList<Ball> availableBalls;
 	private Ball[][] matrix;
 	
@@ -74,21 +73,13 @@ public class DrawingPen extends JPanel
 		setDoubleBuffered(true);
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(
-				BALL_HEIGHT * matrix.length, BALL_WIDTH * matrix[0].length));
+				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1)));
 	}
 	
-	public void paint(Graphics g) {
-        super.paint(g);
+	// Draws the balls
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
-//        for (int i = 0; i < matrix.length; i++) {
-//        	for (int j = 0; j < matrix[i].length; j++) {
-//        		if (matrix[i][j] != null) {
-//        			g2d.drawImage(matrix[i][j].getImage(),
-//        					matrix[i][j].getX(),matrix[i][j].getY(), this);
-//        		}
-//			}
-//				
-//        }
         for (int i = 0; i < availableBalls.size(); i++) {
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
@@ -108,24 +99,6 @@ public class DrawingPen extends JPanel
 		}
 		repaint();
 	}
-		// checks for every ball if there is another one underneath
-//		for (int i = 0; i < matrix.length - 1; i++) {
-//			for (int j = 0; j < matrix[i].length; j++) {
-//				if (matrix[i][j] != null && matrix[i + 1][j] != null ) {
-//					Rectangle one = matrix[i][j].getBounds();
-//					Rectangle two = matrix[i + 1][j].getBounds();
-//					if (!one.intersects(two)) {
-//						matrix[i][j].fall();
-//					}
-//				}
-//			}
-//		}
-//		// same check but only for the last line
-//		for (int r = matrix.length - 1, c = 0; c < matrix[r].length; c++) {
-//			if (matrix[r][c] != null && matrix[r][c].getY() <= matrix.length * BALL_HEIGHT) {
-//				matrix[r][c].fall();
-//			}
-//		}
 		
 	private boolean intersectsAnyUnder(int index) {
 		Rectangle currBall = availableBalls.get(index).getBounds();
@@ -149,28 +122,18 @@ public class DrawingPen extends JPanel
 
 	public class MAdapter extends MouseAdapter {
 		
-//		@Override
-//		public void mousePressed(MouseEvent e) {
-//			for (int i = 0; i < matrix.length; i++) {
-//				for (int j = 0; j < matrix[i].length; j++) {
-//					if (isMouseOnBall(i, j)) {
-//					
-//						//checkField(i, j, matrix[i][j].getBallColor());
-//						//moveColumnsDown();
-//						
-//						playSound("src/Sounds/POP.WAV");
-//					}
-//				}
-//			}
 		public void mousePressed(MouseEvent e) {
-			for (int i = 0; i < availableBalls.size(); i++) {
-				if (availableBalls.get(i).getBounds().contains(getMousePosition())) {
-					availableBalls.remove(i);
-					playSound("src/Sounds/POP.WAV");
+			
+			for (int r = 0; r < matrix.length; r++) {
+				for (int c = 0; c < matrix[r].length; c++) {
+					if (isMouseOnBall(r, c)) {
+						checkField(r, c, matrix[r][c].getBallColor());
+						moveColumnsDown();
+						playSound("src/Sounds/POP.WAV");
+					}
 				}
 			}
 		}
-	
 	
 		public boolean isMouseOnBall(int i, int j) {
 			return matrix[i][j] != null && 
@@ -196,29 +159,31 @@ public class DrawingPen extends JPanel
 		}
 
 	public void moveColumnsDown() {
-		for (int col = 0; col < matrix[0].length; col++) {
-			for (int row = matrix.length - 1; row > 0; row--) {
-				matrix[row][col] = matrix[row - 1][col];
+		for (int cycle = 0; cycle < matrix.length; cycle++) {
+			for (int col = 0; col < matrix[0].length; col++) {
+				for (int row = matrix.length - 1; row > 0; row--) {
+					if (matrix[row][col] == null) {
+						matrix[row][col] = matrix[row - 1][col];
+						matrix[row - 1][col] = null; 
+					}
+				}
 			}
 		}
 	}
 	
 	private void checkField(int row, int column, BallColor searchedColor) {
         //If index is out of the matrix stops recursion
-        if (column >= matrix.length || row >= matrix[0].length
+        if (column >= matrix[0].length || row >= matrix.length
             || column < 0 || row < 0) {
             return;
         }
 
-//        if (this.matrix[row][column] != null &&
-//        		this.matrix[row][column].getBallColor() == searchedColor) {
-//            this.matrix[row][column] = null;
-//            checkNeighboringFields(row, column, searchedColor);
-//        }
-//        else
-//        {
-//            return;
-//        }
+        if (this.matrix[row][column] != null &&
+        		this.matrix[row][column].getBallColor() == searchedColor) {
+        	this.availableBalls.remove(matrix[row][column]);
+            this.matrix[row][column] = null;
+            checkNeighboringFields(row, column, searchedColor);
+        }
     }
 
     public void checkNeighboringFields(int row, int column, BallColor searchedColor)

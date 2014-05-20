@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Window;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -7,8 +8,8 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
 	
-	private final int WINDOW_WIDTH = 700;
-	private final int WINDOW_HEIGHT = 500;
+	private final int WINDOW_WIDTH = 900;
+	private final int WINDOW_HEIGHT = 650;
 	
 	public Game() {
 		add(new Menu());

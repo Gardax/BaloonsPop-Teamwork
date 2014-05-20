@@ -16,19 +16,19 @@ import javax.swing.JPanel;
 
 public class Menu extends JPanel {
 	
-	private final String MENU_IMAGE = "Images/GrassScreen.png";
+	private final String MENU_IMAGE = "Images/Grass.png";
 	private final String DIFFICULTY_EASY = "EASY";
 	private final String dIFFICULTY_MEDIUM = "MEDIUM";
 	private final String dIFFICULTY_HARD = "HARD";
 	
 	public Menu() {
-		startGame();
+		 startGame("hard");
 	}
 	
-	public void startGame() {
-		GameEngine engine = new GameEngine("medium");
+	public void startGame(String difficulty) {
+		GameEngine engine = new GameEngine(difficulty);
 		Ball[][] matrix = engine.generateMatrix();
-		add(new DrawingPen(matrix), BorderLayout.WEST);
+		add(new DrawingPen(matrix), BorderLayout.CENTER);
 	}
 	
 	public void paint(Graphics g) {
