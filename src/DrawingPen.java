@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.MouseInfo;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -28,15 +29,21 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 
+
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import sun.applet.Main;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
-
 public class DrawingPen extends JPanel
 		implements ActionListener {
+	
+	private final int BALL_WIDTH = 50;
+	private final int BALL_HEIGHT = 50;
 	
 	private Timer timer;
 	private Ball currentBall;
@@ -49,7 +56,7 @@ public class DrawingPen extends JPanel
 		initBoard();
 		
 		addMouseListener(new MAdapter());
-		timer = new Timer(10, this);
+		timer = new Timer(4, this);
 		timer.start();
 	}
 
@@ -66,16 +73,26 @@ public class DrawingPen extends JPanel
 		setFocusable(true);
 		setDoubleBuffered(true);
 		setBackground(Color.WHITE);
-		setPreferredSize(new Dimension(50 * matrix.length, 50 * matrix[0].length));
+		setPreferredSize(new Dimension(
+				BALL_HEIGHT * matrix.length, BALL_WIDTH * matrix[0].length));
 	}
 	
 	public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
+//        for (int i = 0; i < matrix.length; i++) {
+//        	for (int j = 0; j < matrix[i].length; j++) {
+//        		if (matrix[i][j] != null) {
+//        			g2d.drawImage(matrix[i][j].getImage(),
+//        					matrix[i][j].getX(),matrix[i][j].getY(), this);
+//        		}
+//			}
+//				
+//        }
         for (int i = 0; i < availableBalls.size(); i++) {
-				g2d.drawImage(availableBalls.get(i).getImage(),
-						availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
-        }
+        	g2d.drawImage(availableBalls.get(i).getImage(),
+        			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
+		}
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
@@ -84,27 +101,84 @@ public class DrawingPen extends JPanel
 	public void actionPerformed(ActionEvent e) {
 		
 		for (int i = 0; i < availableBalls.size(); i++) {
-			if (availableBalls.get(i).getY() <= matrix.length * 50) {
+			if (!intersectsAnyUnder(i) &&
+					availableBalls.get(i).getY() <= matrix.length * BALL_HEIGHT) {
 				availableBalls.get(i).fall();
 			}
 		}
 		repaint();
-		
 	}
-	
-	public class MAdapter extends MouseAdapter {
+		// checks for every ball if there is another one underneath
+//		for (int i = 0; i < matrix.length - 1; i++) {
+//			for (int j = 0; j < matrix[i].length; j++) {
+//				if (matrix[i][j] != null && matrix[i + 1][j] != null ) {
+//					Rectangle one = matrix[i][j].getBounds();
+//					Rectangle two = matrix[i + 1][j].getBounds();
+//					if (!one.intersects(two)) {
+//						matrix[i][j].fall();
+//					}
+//				}
+//			}
+//		}
+//		// same check but only for the last line
+//		for (int r = matrix.length - 1, c = 0; c < matrix[r].length; c++) {
+//			if (matrix[r][c] != null && matrix[r][c].getY() <= matrix.length * BALL_HEIGHT) {
+//				matrix[r][c].fall();
+//			}
+//		}
 		
-		@Override
-		public void mousePressed(MouseEvent e) {
-			for (int i = 0; i < availableBalls.size(); i++) {
-					if (availableBalls.get(i).getBounds().contains(getMousePosition())) {
-						availableBalls.remove(i);
-						playSound("src/Sounds/POP.WAV");
-					}
-				
+	private boolean intersectsAnyUnder(int index) {
+		Rectangle currBall = availableBalls.get(index).getBounds();
+		Rectangle otherBall;
+		for (int i = 0; i < index; i++) {
+			otherBall = availableBalls.get(i).getBounds();
+			if (currBall.intersects(otherBall)
+					&& currBall.y < otherBall.y) {
+				return true;
 			}
 		}
+		for (int i = index + 1; i < availableBalls.size(); i++) {
+			otherBall = availableBalls.get(i).getBounds();
+			if (currBall.intersects(otherBall)
+					&& currBall.y < otherBall.y) {
+				return true;
+			}
+		}
+		return false;
 	}
+
+	public class MAdapter extends MouseAdapter {
+		
+//		@Override
+//		public void mousePressed(MouseEvent e) {
+//			for (int i = 0; i < matrix.length; i++) {
+//				for (int j = 0; j < matrix[i].length; j++) {
+//					if (isMouseOnBall(i, j)) {
+//					
+//						//checkField(i, j, matrix[i][j].getBallColor());
+//						//moveColumnsDown();
+//						
+//						playSound("src/Sounds/POP.WAV");
+//					}
+//				}
+//			}
+		public void mousePressed(MouseEvent e) {
+			for (int i = 0; i < availableBalls.size(); i++) {
+				if (availableBalls.get(i).getBounds().contains(getMousePosition())) {
+					availableBalls.remove(i);
+					playSound("src/Sounds/POP.WAV");
+				}
+			}
+		}
+	
+	
+		public boolean isMouseOnBall(int i, int j) {
+			return matrix[i][j] != null && 
+					matrix[i][j].getBounds().contains(getMousePosition());
+		}
+	}
+	
+	
 
 	public synchronized void playSound(final String url) {
 		new Thread(
@@ -120,4 +194,39 @@ public class DrawingPen extends JPanel
 	                }
 	            }).start();
 		}
+
+	public void moveColumnsDown() {
+		for (int col = 0; col < matrix[0].length; col++) {
+			for (int row = matrix.length - 1; row > 0; row--) {
+				matrix[row][col] = matrix[row - 1][col];
+			}
+		}
+	}
+	
+	private void checkField(int row, int column, BallColor searchedColor) {
+        //If index is out of the matrix stops recursion
+        if (column >= matrix.length || row >= matrix[0].length
+            || column < 0 || row < 0) {
+            return;
+        }
+
+//        if (this.matrix[row][column] != null &&
+//        		this.matrix[row][column].getBallColor() == searchedColor) {
+//            this.matrix[row][column] = null;
+//            checkNeighboringFields(row, column, searchedColor);
+//        }
+//        else
+//        {
+//            return;
+//        }
+    }
+
+    public void checkNeighboringFields(int row, int column, BallColor searchedColor)
+    {
+        checkField(row, column + 1, searchedColor);
+        checkField(row, column - 1, searchedColor);
+        checkField(row + 1, column, searchedColor);
+        checkField(row - 1, column, searchedColor);
+    }
+	
 }

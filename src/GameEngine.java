@@ -91,7 +91,7 @@ public class GameEngine {
         {
             for (int c = 0, x = 0; c < this.matrixCols; x += 50, c++)
             {
-                int colorIndex = randNumber.nextInt(3);
+                int colorIndex = randNumber.nextInt(4);
                 matrix[r][c] = new Ball(
                 		x, y, BallColor.values()[colorIndex]);
             }
@@ -99,33 +99,30 @@ public class GameEngine {
         return matrix;
     }
 
-//    private void checkField(int row, int column, int searchedItem)
-//    {
-//        //If index is out of the matrix stops recursion
-//        if (column >= this.matrixCols || row >= this.matrixRows
-//            || column < 0 || row < 0)
-//        {
-//            return;
-//        }
-//
-//        if (this.matrix[row][column] == searchedItem)
-//        {
-//            this.matrix[row][column] = 0;
-//            checkNeighboringFields(row, column, searchedItem);
-//        }
-//        else
-//        {
-//            return;
-//        }
-//    }
+      	private void checkField(int row, int column, BallColor searchedColor) {
+        //If index is out of the matrix stops recursion
+        if (column >= this.matrixCols || row >= this.matrixRows
+            || column < 0 || row < 0) {
+            return;
+        }
 
-//    public void checkNeighboringFields(int row, int column, int searchedItem)
-//    {
-//        checkField(row, column + 1, searchedItem);
-//        checkField(row, column - 1, searchedItem);
-//        checkField(row + 1, column, searchedItem);
-//        checkField(row - 1, column, searchedItem);
-//    }
+        if (this.matrix[row][column].getBallColor() == searchedColor) {
+            this.matrix[row][column] = null;
+            checkNeighboringFields(row, column, searchedColor);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void checkNeighboringFields(int row, int column, BallColor searchedColor)
+    {
+        checkField(row, column + 1, searchedColor);
+        checkField(row, column - 1, searchedColor);
+        checkField(row + 1, column, searchedColor);
+        checkField(row - 1, column, searchedColor);
+    }
 
 //    public boolean isPopped(int rowAtm, int columnAtm) throws Exception
 //    {

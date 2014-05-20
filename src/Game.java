@@ -13,6 +13,7 @@ public class Game extends JFrame {
 	public Game() {
 		GameEngine engine = new GameEngine("medium");
 		Ball[][] matrix = engine.generateMatrix();
+		
 		add(new DrawingPen(matrix), BorderLayout.WEST);
 		
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
