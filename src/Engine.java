@@ -128,7 +128,7 @@ public class Engine extends JPanel
 		
 		for (int i = 0; i < availableBalls.size(); i++) {
 			if (!intersectsAnyUnder(i) &&
-					availableBalls.get(i).getY() <= matrix.length * BALL_HEIGHT) {
+					availableBalls.get(i).getY() <= 9 * BALL_HEIGHT) {
 				availableBalls.get(i).fall();
 			}
 		}

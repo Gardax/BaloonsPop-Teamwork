@@ -36,7 +36,17 @@ public class MatrixDispatcher {
         Ball[][] matrix = new Ball[matrixRows][matrixCols];
         Random randNumber = new Random();
 
-        for (int r = 0, y = 0; r < matrixRows; y += 50, r++)
+//        for (int r = 0, y = 0; r < matrixRows; y += 50, r++)
+//        {
+//            for (int c = 0, x = 0; c < matrixCols; x += 50, c++)
+//            {
+//                int colorIndex = randNumber.nextInt(ballCount);
+//                matrix[r][c] = new Ball(
+//                		x + 400 - matrixCols * 50 / 2,
+//                		y, BallColor.values()[colorIndex]);
+//            }
+//        }
+        for (int r = matrixRows - 1, y = 50 * matrixRows; r >= 0; y -= 50, r--)
         {
             for (int c = 0, x = 0; c < matrixCols; x += 50, c++)
             {
