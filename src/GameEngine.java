@@ -96,7 +96,7 @@ public class GameEngine {
             {
                 int colorIndex = randNumber.nextInt(ballCount);
                 matrix[r][c] = new Ball(
-                		x+80, y+50, BallColor.values()[colorIndex]);
+                		x+180, y+50, BallColor.values()[colorIndex]);
             }
         }
         return matrix;

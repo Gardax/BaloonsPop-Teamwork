@@ -43,7 +43,7 @@ public class Menu extends JPanel {
 		setFocusable(true);
 		setDoubleBuffered(true);
 		setBackground(Color.WHITE);
-		setPreferredSize(new Dimension(30, 200));
+		//setPreferredSize(new Dimension(30, 200));
 		
 		JButton startGame=new JButton("Start");
 		

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 public class Game extends JFrame {
 	
-	private final int WINDOW_WIDTH = 600;
+	private final int WINDOW_WIDTH = 800;
 	private final int WINDOW_HEIGHT = 650;
 	
 	
