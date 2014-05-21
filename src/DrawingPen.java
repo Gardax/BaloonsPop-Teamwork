@@ -21,9 +21,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javafx.geometry.Orientation;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -32,20 +30,10 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.Border;
-
-
-
-
-
-
-
-
 import org.omg.CORBA.PUBLIC_MEMBER;
-
 import sun.applet.Main;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class DrawingPen extends JPanel
@@ -85,7 +73,7 @@ public class DrawingPen extends JPanel
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(
 				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1)));
-		setLocation(200, 300);
+		//setLocation(200, 300);
 	}
 	
 	// Draws the balls
@@ -104,6 +92,8 @@ public class DrawingPen extends JPanel
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
 		}
+        this.setOpaque( false ) ;
+        this.setLayout( null ) ;
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }

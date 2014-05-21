@@ -39,13 +39,6 @@ public class Menu extends JPanel {
 	private final String dIFFICULTY_HARD = "HARD";
 	private final String MENU_IMAGE = "Images/Grass.png";
 	
-	public Menu() {
-		JFrame frame=new JFrame();
-		frame.setVisible(true);
-		frame.setSize(400, 400);
-		frame.setLocationRelativeTo(null);
-		frame.setLayout(new FlowLayout());
-		JPanel panel = new JPanel();
 	public Menu(JFrame mainFrame) {
 		setFocusable(true);
 		setDoubleBuffered(true);
@@ -60,16 +53,12 @@ public class Menu extends JPanel {
 				GameEngine engine = new GameEngine("hard");
 				Ball[][] matrix = engine.generateMatrix();
 				mainFrame.setContentPane(new DrawingPen(matrix));
+				mainFrame.setLayout(new BorderLayout());
 				mainFrame.invalidate();
 				mainFrame.validate();
         	}
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        			new Game("hard");
-        			//startGame("hard");
-        			frame.dispose();
-                }
-    	});
+		});
+			
 		add(startGame);
 		
 		JButton topPlayers=new JButton("Top Player");
