@@ -29,6 +29,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -55,10 +56,14 @@ public class DrawingPen extends JPanel
 	private JLabel score;
 	private Ball[][] matrix;
 	private Player player;
+	private JFrame mainFrame;
+	private boolean isStarted;
 	
-	public DrawingPen(Ball[][] matrix, Player player) {
+	public DrawingPen(Ball[][] matrix, Player player, JFrame mainFrame) {
 		this.player = player;
 		this.matrix = matrix;
+		this.mainFrame=mainFrame;
+		this.isStarted=false;
 		score = new JLabel(player.getScore().toString());
 		initAvailableBalls();
 		initBoard();
@@ -75,6 +80,7 @@ public class DrawingPen extends JPanel
 				availableBalls.add(matrix[i][j]);
 			}
 		}
+		this.isStarted=true;
 	}
 
 	private void initBoard() {
@@ -115,6 +121,14 @@ public class DrawingPen extends JPanel
 					availableBalls.get(i).getY() <= matrix.length * BALL_HEIGHT) {
 				availableBalls.get(i).fall();
 			}
+		}
+		if(availableBalls.size()==0 && this.isStarted){
+			//this.mainFrame.setContentPane(new Menu(this.mainFrame));
+			//this.mainFrame.invalidate();
+			//this.mainFrame.validate();
+			this.mainFrame.dispose();
+			new Game();
+			this.isStarted=false;
 		}
 		repaint();
 	}

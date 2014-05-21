@@ -52,7 +52,7 @@ public class Menu extends JPanel {
         	public void actionPerformed(ActionEvent e) {
 				GameEngine engine = new GameEngine("hard");
 				Ball[][] matrix = engine.generateMatrix();
-				mainFrame.setContentPane(new DrawingPen(matrix, new Player("Test")));
+				mainFrame.setContentPane(new DrawingPen(matrix, new Player("Test"), mainFrame));
 				mainFrame.setLayout(new BorderLayout());
 				mainFrame.invalidate();
 				mainFrame.validate();
