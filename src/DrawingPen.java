@@ -21,19 +21,25 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javafx.geometry.Orientation;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.Border;
+
 import org.omg.CORBA.PUBLIC_MEMBER;
+
 import sun.applet.Main;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
+
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class DrawingPen extends JPanel
@@ -46,10 +52,14 @@ public class DrawingPen extends JPanel
 	
 	private Timer timer;
 	private ArrayList<Ball> availableBalls;
+	private JLabel score;
 	private Ball[][] matrix;
+	private Player player;
 	
-	public DrawingPen(Ball[][] matrix) {
+	public DrawingPen(Ball[][] matrix, Player player) {
+		this.player = player;
 		this.matrix = matrix;
+		score = new JLabel(player.getScore().toString());
 		initAvailableBalls();
 		initBoard();
 		
@@ -87,7 +97,7 @@ public class DrawingPen extends JPanel
 		Image logo = logoIcon.getImage();
 		g2d.drawImage(bg, 0, 0, null);
 		g2d.drawImage(logo, 0, 0, null);
-		
+		g2d.drawString(player.getScore().toString(), 0, 200);
         for (int i = 0; i < availableBalls.size(); i++) {
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
@@ -136,7 +146,11 @@ public class DrawingPen extends JPanel
 			for (int r = 0; r < matrix.length; r++) {
 				for (int c = 0; c < matrix[r].length; c++) {
 					if (isMouseOnBall(r, c)) {
+						int ballCountNow = availableBalls.size();
 						checkField(r, c, matrix[r][c].getBallColor());
+						int ballCountLater = availableBalls.size();
+						int balls = ballCountNow - ballCountLater;
+						player.setScore(player.getScore() + calculateScore(balls));
 						moveColumnsDown();
 						playSound("src/Sounds/POP.WAV");
 					}
@@ -166,6 +180,10 @@ public class DrawingPen extends JPanel
 	                }
 	            }).start();
 		}
+
+	public Integer calculateScore(int balls) {
+		return (balls + 2) * balls * balls;
+	}
 
 	public void moveColumnsDown() {
 		for (int cycle = 0; cycle < matrix.length; cycle++) {
