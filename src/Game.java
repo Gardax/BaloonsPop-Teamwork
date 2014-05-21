@@ -4,10 +4,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
 public class Game extends JFrame {
@@ -23,12 +27,7 @@ public class Game extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
-		startGame("hard");
-	}
-	
-	public void startGame(String difficulty) {
-		GameEngine engine = new GameEngine(difficulty);
-		Ball[][] matrix = engine.generateMatrix();
-		add(new DrawingPen(matrix), BorderLayout.CENTER);
+		add(new Menu(this));
+		
 	}
 }
