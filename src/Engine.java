@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -43,28 +45,31 @@ import sun.audio.AudioStream;
 
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
-public class DrawingPen extends JPanel
+public class Engine extends JPanel
 		implements ActionListener {
 	
 	private final int BALL_WIDTH = 50;
 	private final int BALL_HEIGHT = 50;
-	private final String MENU_IMAGE = "Images/Grass.png";
-	private final String LOGO_IMAGE = "Images/Logo.jpg";
+	
+	private final String MENU_IMAGE_PATH = "Images/Grass.png";
+	private final String LOGO_IMAGE_PATH = "Images/Logo.jpg";
+	private final String SCORE_IMAGE_PATH = "Images/Score.png";
+	
+	private Image logo;
+	private Image menu;
+	private Image score;
 	
 	private Timer timer;
 	private ArrayList<Ball> availableBalls;
-	private JLabel score;
+	
 	private Ball[][] matrix;
 	private Player player;
-	private JFrame mainFrame;
-	private boolean isStarted;
+	private String gameDifficulty;
+	//private JFrame mainFrame;
 	
-	public DrawingPen(Ball[][] matrix, Player player, JFrame mainFrame) {
-		this.player = player;
-		this.matrix = matrix;
-		this.mainFrame=mainFrame;
-		this.isStarted=false;
-		score = new JLabel(player.getScore().toString());
+	public Engine(Game game) {
+		initGame(game);
+		loadImages();
 		initAvailableBalls();
 		initBoard();
 		
@@ -72,7 +77,13 @@ public class DrawingPen extends JPanel
 		timer = new Timer(4, this);
 		timer.start();
 	}
-
+	
+	private void initGame(Game game) {
+		this.player = game.getPlayer();
+		this.matrix = game.getMatrix();
+		this.gameDifficulty = game.getDifficulty();
+	}
+	
 	private void initAvailableBalls() {
 		this.availableBalls = new ArrayList<Ball>();
 		for (int i = 0; i < matrix.length; i++) {
@@ -80,7 +91,6 @@ public class DrawingPen extends JPanel
 				availableBalls.add(matrix[i][j]);
 			}
 		}
-		this.isStarted=true;
 	}
 
 	private void initBoard() {
@@ -89,21 +99,21 @@ public class DrawingPen extends JPanel
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(
 				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1)));
-		
+		setBounds(40, 40, 2, 2);
 	}
 	
 	// Draws the balls
-	public void paint(Graphics g) {
-        super.paint(g);
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
         
-        ImageIcon bgIcon = new ImageIcon(getClass().getResource(MENU_IMAGE));
-		Image bg = bgIcon.getImage();
-		ImageIcon logoIcon = new ImageIcon(getClass().getResource(LOGO_IMAGE));
-		Image logo = logoIcon.getImage();
-		g2d.drawImage(bg, 0, 0, null);
+		g2d.drawImage(menu, 0, 0, null);
 		g2d.drawImage(logo, 0, 0, null);
-		g2d.drawString(player.getScore().toString(), 0, 200);
+		g2d.drawImage(score, 0, 100, null);
+		g2d.setFont(new Font("Plain", Font.BOLD, 15));
+		g2d.drawString("Best: " + player.getBestScore(), 12, 160);
+		g2d.drawString("Current : " + player.getScore(), 12, 180);
+		
         for (int i = 0; i < availableBalls.size(); i++) {
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);
@@ -122,13 +132,17 @@ public class DrawingPen extends JPanel
 				availableBalls.get(i).fall();
 			}
 		}
-		if(availableBalls.size()==0 && this.isStarted){
+		if (availableBalls.size() == 0){
 			//this.mainFrame.setContentPane(new Menu(this.mainFrame));
 			//this.mainFrame.invalidate();
 			//this.mainFrame.validate();
-			this.mainFrame.dispose();
-			new Game();
-			this.isStarted=false;
+			//this.mainFrame.dispose();
+			if (player.getScore() > player.getBestScore()) {
+				player.setBestScore(player.getScore());
+			}
+			player.setScore(0);
+			initGame(new Game(this.gameDifficulty, this.player));
+			initAvailableBalls();
 		}
 		repaint();
 	}
@@ -178,8 +192,6 @@ public class DrawingPen extends JPanel
 		}
 	}
 	
-	
-
 	public synchronized void playSound(final String url) {
 		new Thread(
 	            new Runnable() {
@@ -233,6 +245,15 @@ public class DrawingPen extends JPanel
         checkField(row, column - 1, searchedColor);
         checkField(row + 1, column, searchedColor);
         checkField(row - 1, column, searchedColor);
+    }
+    
+    public void loadImages() {
+    	ImageIcon bgIcon = new ImageIcon(getClass().getResource(MENU_IMAGE_PATH));
+    	menu = bgIcon.getImage();
+		ImageIcon logoIcon = new ImageIcon(getClass().getResource(LOGO_IMAGE_PATH));
+		logo = logoIcon.getImage();
+		ImageIcon scoreIcon = new ImageIcon(getClass().getResource(SCORE_IMAGE_PATH));
+		score = scoreIcon.getImage();
     }
 	
 }

@@ -1,33 +1,37 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+public class Game {
+	
+	private String difficulty;
+	private Player player;
+	private Ball[][] matrix;
+	
+	public Game(String difficulty, Player player) {
+		this.difficulty = difficulty;
+		this.player = player;
+		this.matrix = MatrixDispatcher.generateMatrix(difficulty);
+	}
+	
+	public String getDifficulty() {
+		return difficulty;
+	}
 
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
 
-public class Game extends JFrame {
-	
-	private final int WINDOW_WIDTH = 800;
-	private final int WINDOW_HEIGHT = 650;
-	
-	
-	public Game() {
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		setTitle("BalloonPop");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-		setVisible(true);
-		setResizable(false);
-		add(new Menu(this), BorderLayout.CENTER);
-		
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public Ball[][] getMatrix() {
+		return matrix;
+	}
+
+	public void setMatrix(Ball[][] matrix) {
+		this.matrix = matrix;
 	}
 }

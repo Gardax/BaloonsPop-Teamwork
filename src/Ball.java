@@ -12,6 +12,12 @@ public class Ball {
 	private int x;
 	private int y;
 	
+	public Ball(int x, int y, BallColor ballColor) {
+		this.ballColor = ballColor;
+		setImage(ballColor);
+		this.x = x;
+		this.y = y;
+	}
 	public Image getImage() {
 		return this.image;
 	}
@@ -42,13 +48,6 @@ public class Ball {
 	}
 
 	public void setY(int y) {
-		this.y = y;
-	}
-	
-	public Ball(int x, int y, BallColor ballColor) {
-		this.ballColor = ballColor;
-		setImage(ballColor);
-		this.x = x;
 		this.y = y;
 	}
 	

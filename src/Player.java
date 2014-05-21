@@ -2,16 +2,17 @@
 public class Player {
 	
 	private String name;
-	private int score;
+	private int currentScore;
+	private int bestScore;
 	
 	public Player(String name, int moves) {
 		this.name = name;
-		this.score = moves;
+		this.currentScore = moves;
 	}
 	
 	public Player(String name) {
 		this.name = name;
-		this.score = 0;
+		this.currentScore = 0;
 	}
 	
 	public String getName(){
@@ -19,10 +20,19 @@ public class Player {
 	}
 	
 	public Integer getScore() {
-		return this.score;
+		return this.currentScore;
 	}
 	
 	public void setScore(int score) {
-		this.score = score;
+		this.currentScore = score;
 	}
+	
+	public int getBestScore() {
+		return bestScore;
+	}
+
+	public void setBestScore(int bestScore) {
+		this.bestScore = bestScore;
+	}
+
 }

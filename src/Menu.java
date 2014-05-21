@@ -35,54 +35,44 @@ public class Menu extends JPanel {
 	
 	
 	private final String DIFFICULTY_EASY = "EASY";
-	private final String dIFFICULTY_MEDIUM = "MEDIUM";
-	private final String dIFFICULTY_HARD = "HARD";
+	private final String DIFFICULTY_MEDIUM = "MEDIUM";
+	private final String DIFFICULTY_HARD = "HARD";
 	private final String MENU_IMAGE = "Images/Grass.png";
 	
 	public Menu(JFrame mainFrame) {
 		setFocusable(true);
 		setDoubleBuffered(true);
 		setBackground(Color.WHITE);
-		//setPreferredSize(new Dimension(30, 200));
 		
-		JButton startGame=new JButton("Start");
+		JButton startEasyGame = new JButton(DIFFICULTY_EASY);
 		
-		startGame.addActionListener(new ActionListener() {
+		startEasyGame.addActionListener(new ActionListener() {
 			@Override
         	public void actionPerformed(ActionEvent e) {
-				GameEngine engine = new GameEngine("hard");
-				Ball[][] matrix = engine.generateMatrix();
-				mainFrame.setContentPane(new DrawingPen(matrix, new Player("Test"), mainFrame));
-				mainFrame.setLayout(new BorderLayout());
-				mainFrame.invalidate();
-				mainFrame.validate();
+				startGame(mainFrame, "easy");
         	}
 		});
-			
-		add(startGame);
+		add(startEasyGame);
 		
-		JButton topPlayers=new JButton("Top Player");
-		topPlayers.addActionListener(new ActionListener() {
+		JButton startMediumGame = new JButton(DIFFICULTY_MEDIUM);
+		startMediumGame.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        			
-        			
+        			startGame(mainFrame, "medium");
                 }
     	});
-		add(topPlayers);
+		add(startMediumGame);
 		
-		JButton exit=new JButton("Exit");
-		exit.addActionListener(new ActionListener() {
+		JButton startHardGame = new JButton(DIFFICULTY_HARD);
+		startHardGame.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        			System.exit(0);
+        			startGame(mainFrame, "hard");
                 }
     	});
-		add(exit);
+		add(startHardGame);
 		
 	}
-	
-	
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -92,6 +82,14 @@ public class Menu extends JPanel {
 		java.awt.Image img = icon.getImage();
 		g2d.drawImage(img, 0, 0, null);
 		
+	}
+	
+	public void startGame(JFrame mainFrame, String difficulty) {
+		Ball[][] matrix = MatrixDispatcher.generateMatrix(difficulty);
+		mainFrame.setContentPane(new Engine(new Game(difficulty, new Player("Unufri"))));
+		mainFrame.setLayout(new BorderLayout());
+		mainFrame.invalidate();
+		mainFrame.validate();
 	}
 	
 }
