@@ -65,10 +65,10 @@ public class Ball {
 			source = "Images/GreenBall.png";
 			break;
 		case YELLOW:
-			source = "Images/OrangeBall.png";
+			source = "Images/YellowBall.png";
 			break;
-		case PURPLE:
-			source = "Images/PurpleBall.png";
+		case BROWN:
+			source = "Images/BrownBall.png";
 			break;
 		default:
 			source = "Images/Empty.png";

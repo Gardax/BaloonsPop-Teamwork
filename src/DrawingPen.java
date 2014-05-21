@@ -1,4 +1,5 @@
 import java.applet.AudioClip;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -27,9 +28,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.Border;
+
+
 
 
 
@@ -50,6 +54,7 @@ public class DrawingPen extends JPanel
 	private final int BALL_WIDTH = 50;
 	private final int BALL_HEIGHT = 50;
 	private final String MENU_IMAGE = "Images/Grass.png";
+	private final String LOGO_IMAGE = "Images/Logo.jpg";
 	
 	private Timer timer;
 	private ArrayList<Ball> availableBalls;
@@ -80,17 +85,21 @@ public class DrawingPen extends JPanel
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(
 				BALL_WIDTH * matrix[0].length , BALL_HEIGHT * (matrix.length + 1)));
+		setLocation(200, 300);
 	}
 	
-	
-	
 	// Draws the balls
-	public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+	public void paint(Graphics g) {
+        super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
-        ImageIcon icon = new ImageIcon(getClass().getResource(MENU_IMAGE));
-		Image img = icon.getImage();
-		g2d.drawImage(img, 0, 0, null);
+        
+        ImageIcon bgIcon = new ImageIcon(getClass().getResource(MENU_IMAGE));
+		Image bg = bgIcon.getImage();
+		ImageIcon logoIcon = new ImageIcon(getClass().getResource(LOGO_IMAGE));
+		Image logo = logoIcon.getImage();
+		g2d.drawImage(bg, 0, 0, null);
+		g2d.drawImage(logo, 0, 0, null);
+		
         for (int i = 0; i < availableBalls.size(); i++) {
         	g2d.drawImage(availableBalls.get(i).getImage(),
         			availableBalls.get(i).getX(), availableBalls.get(i).getY(), this);

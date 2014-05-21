@@ -12,18 +12,18 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
 	
-	private final int WINDOW_WIDTH = 455;
+	private final int WINDOW_WIDTH = 900;
 	private final int WINDOW_HEIGHT = 650;
 	
 	
-	public Game() {
+	public Game(String difficulty) {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setTitle("BalloonPop");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
-		startGame("hard");
+		startGame(difficulty);
 	}
 	
 	public void startGame(String difficulty) {

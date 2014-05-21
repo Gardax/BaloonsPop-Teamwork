@@ -31,10 +31,10 @@ public class Menu extends JPanel {
 	public Menu() {
 		JFrame frame=new JFrame();
 		frame.setVisible(true);
-		frame.setSize(200,200);
+		frame.setSize(400, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setLayout(new FlowLayout());
-		JPanel panel=new JPanel();
+		JPanel panel = new JPanel();
 		
 		frame.add(panel);
 		
@@ -42,7 +42,7 @@ public class Menu extends JPanel {
 		startGame.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        			new Game();
+        			new Game("hard");
         			//startGame("hard");
         			frame.dispose();
                 }

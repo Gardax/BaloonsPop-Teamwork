@@ -12,10 +12,10 @@ public class GameEngine {
     private byte matrixRows;
     private byte matrixCols;
     private String difficulty;
+    private int ballCount;
 
     public GameEngine(String difficulty)
     {
-    	
         this.scoreBoard = new Score();
         this.difficulty = difficulty;
         this.matrix = generateMatrix();
@@ -72,16 +72,19 @@ public class GameEngine {
         {
             this.matrixRows = 4;
             this.matrixCols = 5;
+            this.ballCount = 3;
         }
         else if (this.difficulty == "medium")
         {
             this.matrixRows = 6;
             this.matrixCols = 8;
+            this.ballCount = 4;
         }
         else if (this.difficulty == "hard")
         {
             this.matrixRows = 9;
             this.matrixCols = 9;
+            this.ballCount = 5;
         }
 
         Ball[][] matrix = new Ball[matrixRows][matrixCols];
@@ -91,7 +94,7 @@ public class GameEngine {
         {
             for (int c = 0, x = 0; c < this.matrixCols; x += 50, c++)
             {
-                int colorIndex = randNumber.nextInt(3);
+                int colorIndex = randNumber.nextInt(ballCount);
                 matrix[r][c] = new Ball(
                 		x, y, BallColor.values()[colorIndex]);
             }
