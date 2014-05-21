@@ -16,11 +16,11 @@ import javax.swing.JPanel;
 
 public class Game extends JFrame {
 	
-	private final int WINDOW_WIDTH = 455;
+	private final int WINDOW_WIDTH = 900;
 	private final int WINDOW_HEIGHT = 650;
 	
 	
-	public Game() {
+	public Game(String difficulty) {
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setTitle("BalloonPop");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,5 +29,6 @@ public class Game extends JFrame {
 		setResizable(false);
 		add(new Menu(this));
 		
+		startGame(difficulty);
 	}
 }
